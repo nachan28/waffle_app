@@ -1,16 +1,20 @@
 import Head from "next/head";
 import { auth, provider } from "../firebase/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "components/context/state";
 
 export default function SignIn() {
+  const { setIsAuth } = useAuthContext();
   const router = useRouter();
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider).then((results) => {
       console.log(results);
-      console.log(results.user.displayName)
+      console.log(results.user.displayName);
+      setIsAuth(true);
       localStorage.setItem("isAuth", true);
-      router.push("/home")
+      console.log(localStorage.getItem("isAuth"));
+      router.push("/home");
     });
   };
   return (
