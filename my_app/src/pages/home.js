@@ -1,10 +1,10 @@
-import Head from 'next/head'
+import Head from "next/head";
+import { Inter } from "@next/font/google";
+import styles from "components/styles/Home.module.css";
 import ResponsiveAppBar from 'src/component/header.js'
 
-import { Inter } from '@next/font/google'
-import styles from 'components/styles/Home.module.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 
 
@@ -20,9 +20,6 @@ export default function Home() {
     
       <main className={styles.main}>
       <ResponsiveAppBar></ResponsiveAppBar>
-        
-
-       
         <div className={styles.grid}>
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
@@ -83,5 +80,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }
