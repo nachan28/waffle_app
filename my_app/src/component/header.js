@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+
 import { Inter } from '@next/font/google'
 
 
@@ -48,6 +49,7 @@ function ResponsiveAppBar() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
       <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -169,6 +171,7 @@ function ResponsiveAppBar() {
         </Toolbar>
       </Container>
     </AppBar>
+  
     </>
  );
 }
