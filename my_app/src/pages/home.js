@@ -1,8 +1,13 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "components/styles/Home.module.css";
+
 import ResponsiveAppBar from 'src/component/header.js';
 import Card from "src/component/card.js";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useAuthContext } from "components/context/state";
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,6 +15,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 
 export default function Home() {
+  const router = useRouter();
+  const { isAuth } = useAuthContext();
+  useEffect(() => {
+    if (!isAuth) {
+      router.push("/signin")
+    }
+  }, [])
   return (
     <>
       <Head>
