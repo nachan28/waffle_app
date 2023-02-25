@@ -10,8 +10,8 @@ export default function SignIn() {
       console.log(results);
       console.log(results.user.displayName)
       localStorage.setItem("isAuth", true);
+      router.push("/home")
     });
-    router.push("/home")
   };
   return (
     <>
