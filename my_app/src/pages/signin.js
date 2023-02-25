@@ -3,20 +3,22 @@ import { auth, provider } from "../firebase/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "components/context/state";
+import { useEffect } from "react";
 
 export default function SignIn() {
-  const { setIsAuth } = useAuthContext();
+  const { isAuth, setIsAuth } = useAuthContext();
   const router = useRouter();
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider).then((results) => {
-      console.log(results);
-      console.log(results.user.displayName);
       setIsAuth(true);
       localStorage.setItem("isAuth", true);
-      console.log(localStorage.getItem("isAuth"));
       router.push("/home");
     });
   };
+
+  useEffect(() => {
+
+  }, [])
   return (
     <>
       <Head>
