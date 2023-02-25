@@ -17,7 +17,9 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-
+    if (isAuth) {
+      router.push("/home");
+    }
   }, [])
   return (
     <>
