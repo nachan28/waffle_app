@@ -12,7 +12,38 @@ datasource db {
 
 
 model User {
-  id Int @default(autoincrement()) @id
+  id Int @id @default(autoincrement())
   name String
   email String
+  role Int
+  avatar String
+  langs Language[] 
+  fields Field[]
+  backGround Int
+}
+
+
+model Student {
+  id Int @id
+  userId Int 
+  // user User @relation(fields: [userId], references: [id])
+
+}
+
+// model TA {
+
+// }
+
+model Language {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  lang String
+}
+
+model Field {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  field String
 }

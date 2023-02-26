@@ -5,27 +5,26 @@ import { useRouter } from "next/router";
 
 function Signup() {
   const router = useRouter();
-  const { setIsAuth, user, setUser, email, setEmail, password, setPassword } = useAuthContext();
+  const { setIsAuth, user, setUser, email, setEmail, password, setPassword } =
+    useAuthContext();
   async function postData(url, data) {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     return response.json();
   }
   const postUserInfo = async () => {
-    await createUserWithEmailAndPassword(auth, email, password).then(
-      () => {
-        setIsAuth(true);
-        localStorage.setItem("isAuth", true);
-        router.push("/profileTA");
-      }
-    );
-    const data = {name: user, email: email};
-    const response = postData("/api/signup", data)
+    await createUserWithEmailAndPassword(auth, email, password).then(() => {
+      setIsAuth(true);
+      localStorage.setItem("isAuth", true);
+      router.push("/profileTA");
+    });
+    const data = { name: user, email: email };
+    const response = postData("/api/signup", data);
   };
 
   return (
@@ -52,6 +51,13 @@ function Signup() {
         }}
         placeholder="パスワード"
       />
+      <div>
+        <span>役割</span>
+        <input type="radio" id="ta" name="drone" value="huey" checked />
+        <label for="huey">TA</label>
+        <input type="radio" id="huey" name="drone" value="huey" checked />
+        <label for="huey">Waffle College生</label>
+      </div>
       <button onClick={postUserInfo}>作成</button>
     </>
   );
