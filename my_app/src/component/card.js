@@ -13,7 +13,7 @@ return(
       rel="noopener noreferrer"
     >
      
-     <img src ="/snow.svg" alt="My Happy SVG"/>
+     <img src ="/snow.svg" alt="My Happy SVG" className = {styles.img} />
       <h2 className={inter.className}>
        Snow <span>-&gt;</span>
       </h2>
@@ -29,6 +29,7 @@ return(
       target="_blank"
       rel="noopener noreferrer"
     >
+         <img src ="/snow.svg" alt="My Happy SVG" className = {styles.img} />
       <h2 className={inter.className}>
         Nanako <span>-&gt;</span>
       </h2>
@@ -43,6 +44,7 @@ return(
       target="_blank"
       rel="noopener noreferrer"
     >
+     <img src ="/female_1.svg" alt="My Happy SVG" className = {styles.img} />
       <h2 className={inter.className}>
         Marimo <span>-&gt;</span>
       </h2>
@@ -57,6 +59,7 @@ return(
       target="_blank"
       rel="noopener noreferrer"
     >
+     <img src ="/female_1.svg" alt="My Happy SVG" className = {styles.img} />
       <h2 className={inter.className}>
         Aimi <span>-&gt;</span>
       </h2>

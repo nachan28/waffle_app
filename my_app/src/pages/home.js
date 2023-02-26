@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "components/styles/Home.module.css";
-
 import ResponsiveAppBar from 'src/component/header.js';
 import Card from "src/component/card.js";
 import { useRouter } from "next/router";
@@ -34,11 +33,10 @@ export default function Home() {
     
       <main className={styles.main}>
       <ResponsiveAppBar></ResponsiveAppBar>
-        
-          
-      <Card></Card>
 
-          
+    
+      <Card></Card>
+      
       </main>
     </>
   );
