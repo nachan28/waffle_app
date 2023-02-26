@@ -16,6 +16,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 
 import { Inter } from '@next/font/google'
+import { useRouter } from 'next/router';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,7 +26,8 @@ const settings = ['Profile', 'Account', 'Logout'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const router = useRouter();
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -37,8 +39,11 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (e) => {
     setAnchorElUser(null);
+    if(e.target.textContent === "Logout") {
+      router.push("/signout");
+    }
   };
 
 
