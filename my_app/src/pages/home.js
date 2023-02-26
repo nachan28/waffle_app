@@ -6,6 +6,8 @@ import Card from "src/component/card.js";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthContext } from "components/context/state";
+import Select from "src/component/select.js"
+
 
 
 
@@ -36,6 +38,7 @@ export default function Home() {
 
     
       <Card></Card>
+      <Select />
       
       </main>
     </>

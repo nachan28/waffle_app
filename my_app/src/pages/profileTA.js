@@ -1,95 +1,55 @@
-import React, { useState, useEffect } from "react"
+import { useState } from 'react';
+import  Language  from "/src/component/select.js"
 
-//checkboxのvalueリスト
-const checkLists = [
-  "パン",
-  "おにぎり",
-  "焼き肉",
-  "ラーメン",
-  "たこ焼き",
-  "アイスクリーム",
-]
+function App() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-//checkboxコンポーネント
-const CheckBox = ({id, value, checked, onChange}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({
+      email,
+      password,
+    });
+  };
+
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
   return (
-    <input
-      id={id}
-      type="checkbox"
-      name="inputNames"
-      checked={checked}
-      onChange={onChange}
-      value={value}
-    />
-  )
-}
+    <div className="App">
+      <h1>登録</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">username</label>
+          <input id="username" name="username" value={email} onChange={handleChangeEmail} />
+        </div>
+        <div>
+          <label htmlFor="password">パスワード</label>
+          <input
+            id="password"
+            name="password"
+            value={password}
+            onChange={handleChangePassword}
+            type="password"
+          />
+        </div>
+        <div className="cardArea">  
+          <Language />  
+       </div> 
 
-const CheckBoxList = () => {
 
-//checkedItemsは初期値を空のオブジェクトにする
-  const [checkedItems, setCheckedItems] = useState({})
-//ひとつでもcheckedになっている場合にのみ送信ボタンを表示させたいので、全体のStateを監視する
-  const [isBtnHide, setIsBtnHide] = useState(true)
+        <div>
+          <button type="submit">TAとして登録</button>
+       
+        </div>
 
-  useEffect(() => {
-//checkedItemsが空では無い場合、送信ボタンを表示させる
-    Object.keys(checkedItems).length && setIsBtnHide(false)
-//すべてのcheckedItemの値がfalseの場合に送信ボタンを表示させる
-    setTimeout(() => {
-      if (
-        Object.values(checkedItems).every(checkedItem => {
-          return checkedItem === false
-        })
-      ) {
-        setIsBtnHide(true)
-      }
-    },100);
-  }, [checkedItems])
-
-  const handleChange = e => {
-//checkedItemsのstateをセット
-    setCheckedItems({
-      ...checkedItems,
-      [e.target.id]: e.target.checked
-    })
-    console.log('checkedItems:', checkedItems)
-  }
-
-  const dataSendBtn = e => {
-//既定のイベントをキャンセルさせる
-    e.preventDefault()
-//送信ボタンを押したタイミングで、checkedItemsオブジェクトのvalueがtrueのkeyのみを配列にしてconsoleに表示させる
-    const dataPushArray = Object.entries(checkedItems).reduce((pre,[key, value])=>{
-      value && pre.push(key)
-      return pre
-    },[])
-    console.log("dataPushArray:", dataPushArray)
-  }
-
-  return (
-    <>
-      <h2>好きな食べ物</h2>
-      <form>
-        {checkLists.map((item, index) => {
-          index = index + 1
-          return (
-            <label htmlFor={`id_${index}`} key={`key_${index}`}>
-              <CheckBox
-                id={`id_${index}`}
-                value={item}
-                onChange={handleChange}
-                checked={checkedItems[item.id]}
-              />
-              {item}
-            </label>
-          )
-        })}
-{/* checkedがない場合には送信ボタンを表示させない */}
-        {!isBtnHide && <button onClick={dataSendBtn}>アンケート送信ボタン</button>}
       </form>
-    </>
-  )
+    </div>
+  );
 }
 
-export default CheckBoxList
-
+export default App;
