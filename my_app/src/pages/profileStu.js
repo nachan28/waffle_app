@@ -2,15 +2,89 @@ import Head from 'next/head'
 
 import { Inter } from '@next/font/google'
 import styles from 'components/styles/Home.module.css'
-
+import ResponsiveAppBar from 'src/component/header.js';
 import { useForm } from "react-hook-form";
-import saveData from "./some_other_file";
+
+import React, { useState, useEffect } from "react"
+
+//checkboxのvalueリスト
+const checkLists = [
+  "パン",
+  "おにぎり",
+  "焼き肉",
+  "ラーメン",
+  "たこ焼き",
+  "アイスクリーム",
+]
+
+//checkboxコンポーネント
+const CheckBox = ({id, value, checked, onChange}) => {
+  return (
+    <input
+      id={id}
+      type="checkbox"
+      name="inputNames"
+      checked={checked}
+      onChange={onChange}
+      value={value}
+    />
+  )
+}
+
 
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Form() {
-  const { register, handleSubmit } = useForm();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+ 
+
+  const onSubmit = (data) => console.log(data);
+
+  const [checkedItems, setCheckedItems] = useState({})
+//ひとつでもcheckedになっている場合にのみ送信ボタンを表示させたいので、全体のStateを監視する
+  const [isBtnHide, setIsBtnHide] = useState(true)
+
+  useEffect(() => {
+//checkedItemsが空では無い場合、送信ボタンを表示させる
+    Object.keys(checkedItems).length && setIsBtnHide(false)
+//すべてのcheckedItemの値がfalseの場合に送信ボタンを表示させる
+    setTimeout(() => {
+      if (
+        Object.values(checkedItems).every(checkedItem => {
+          return checkedItem === false
+        })
+      ) {
+        setIsBtnHide(true)
+      }
+    },100);
+  }, [checkedItems])
+
+  const handleChange = e => {
+//checkedItemsのstateをセット
+    setCheckedItems({
+      ...checkedItems,
+      [e.target.id]: e.target.checked
+    })
+    console.log('checkedItems:', checkedItems)
+  }
+
+  const dataSendBtn = e => {
+//既定のイベントをキャンセルさせる
+    e.preventDefault()
+//送信ボタンを押したタイミングで、checkedItemsオブジェクトのvalueがtrueのkeyのみを配列にしてconsoleに表示させる
+    const dataPushArray = Object.entries(checkedItems).reduce((pre,[key, value])=>{
+      value && pre.push(key)
+      return pre
+    },[])
+    console.log("dataPushArray:", dataPushArray)
+  }
   return (
     <>
       <Head>
@@ -22,20 +96,44 @@ export default function Form() {
       <main className={styles.main}>
       <ResponsiveAppBar></ResponsiveAppBar> 
 
-      <form onSubmit={handleSubmit(data => saveData(data))}>
-        <h1>New Order</h1>
-        <label>Name</label>
-        <input name="name" ref={register} />
-        <label>Address</label>
-        <input name="address" ref={register} />
-        <label>Date</label>
-        <input name="date" ref={register} />
-        <label>Order Number</label>
-        <input name="order" ref={register} />
-        <input type="submit" />
-      </form>
+    
 
-       
+ 
+    <div className="App">
+      <h1>ログイン</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="username">Username</label>
+          <input id="username" {...register('username', { required: true })} />
+          {errors.username && <div>入力が必須の項目です</div>}
+        </div>
+        <div>
+          <label htmlFor="lan-possible">アドバイス可能な言語</label>
+          <input id="lan-possible" {...register('lan-possible')} type="checkbox" />
+          <h2>好きな食べ物</h2>
+      <form>
+        {checkLists.map((item, index) => {
+          index = index + 1
+          return (
+            <label htmlFor={`id_${index}`} key={`key_${index}`}>
+              <CheckBox
+                id={`id_${index}`}
+                value={item}
+                onChange={handleChange}
+                checked={checkedItems[item.id]}
+              />
+              {item}
+            </label>
+          )
+        })}
+{/* checkedがない場合には送信ボタンを表示させない */}
+        {!isBtnHide && <button onClick={dataSendBtn}>アンケート送信ボタン</button>}
+      </form>
+        </div>
+        <button type="submit">TAとして登録</button>
+        <button type="submit">College生として登録</button>
+      </form>
+    </div>
        
       </main>
     </>
