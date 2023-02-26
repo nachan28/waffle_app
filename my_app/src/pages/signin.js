@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function SignIn() {
-  const { isAuth, setIsAuth } = useAuthContext();
-  const [ email, setEmail ] = useState("");
-  const [ password, setPassword ] = useState("");
+  const { isAuth, setIsAuth, email, setEmail, password, setPassword } = useAuthContext();
   const router = useRouter();
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider).then((results) => {
@@ -22,8 +20,6 @@ export default function SignIn() {
     signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
       setIsAuth(true);
       localStorage.setItem("isAuth", true);
-      const user = userCredential.user;
-      console.log(user);
       router.push("/home");
     });
   };
