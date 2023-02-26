@@ -1,6 +1,5 @@
 import styles from "../styles/Home.module.css";
 import { Inter } from '@next/font/google';
-import Snowimg from 'public/snow.svg';
 
 const inter = Inter({ subsets: ['latin'] })
 export default function Card(){
@@ -14,7 +13,7 @@ return(
       rel="noopener noreferrer"
     >
      
-     <img src ={Snowimg} alt="My Happy SVG"/>
+     <img src ="/snow.svg" alt="My Happy SVG"/>
       <h2 className={inter.className}>
        Snow <span>-&gt;</span>
       </h2>
