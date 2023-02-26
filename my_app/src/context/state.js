@@ -10,9 +10,10 @@ export function useAuthContext() {
 
 export function AuthProvider({children}) {
     const [isAuth, setIsAuth] = useState(false);
+    const [ user, setUser ] = useState("");
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
-    const value = {isAuth, setIsAuth, email, setEmail, password, setPassword};
+    const value = {isAuth, setIsAuth, user, setUser, email, setEmail, password, setPassword};
 
     return (
         <AuthContext.Provider value={value}>

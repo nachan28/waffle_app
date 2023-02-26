@@ -5,20 +5,39 @@ import { useRouter } from "next/router";
 
 function Signup() {
   const router = useRouter();
-  const { setIsAuth, email, setEmail, password, setPassword } = useAuthContext();
-  const postUserInfo = () => {
-    createUserWithEmailAndPassword(auth, email, password).then(
-      (userCredential) => {
+  const { setIsAuth, user, setUser, email, setEmail, password, setPassword } = useAuthContext();
+  async function postData(url, data) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+  const postUserInfo = async () => {
+    await createUserWithEmailAndPassword(auth, email, password).then(
+      () => {
         setIsAuth(true);
         localStorage.setItem("isAuth", true);
         router.push("/profileTA");
       }
     );
+    const data = {name: user, email: email};
+    const response = postData("/api/signup", data)
   };
 
   return (
     <>
       <h1>アカウント新規作成</h1>
+      <input
+        type="text"
+        onChange={(e) => {
+          setUser(e.target.value);
+        }}
+        placeholder="ニックネーム"
+      />
       <input
         type="text"
         onChange={(e) => {
