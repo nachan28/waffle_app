@@ -21,11 +21,11 @@ function App() {
   };
   return (
     <div className="App">
-      <h1>ログイン</h1>
+      <h1>登録</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" value={email} onChange={handleChangeEmail} />
+          <label htmlFor="username">username</label>
+          <input id="username" name="username" value={email} onChange={handleChangeEmail} />
         </div>
         <div>
           <label htmlFor="password">パスワード</label>
@@ -43,7 +43,8 @@ function App() {
 
 
         <div>
-          <button type="submit">ログイン</button>
+          <button type="submit">TAとして登録</button>
+       
         </div>
 
       </form>
