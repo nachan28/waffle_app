@@ -1,12 +1,15 @@
 import Head from "next/head";
 import { auth, provider } from "../firebase/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "components/context/state";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function SignIn() {
   const { isAuth, setIsAuth } = useAuthContext();
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
   const router = useRouter();
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider).then((results) => {
@@ -15,12 +18,27 @@ export default function SignIn() {
       router.push("/home");
     });
   };
+  const loginWithEmail = () => {
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+    });
+  };
+
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const changePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
   useEffect(() => {
     if (isAuth) {
+      console.log(isAuth);
       router.push("/home");
     }
-  }, [])
+  }, []);
   return (
     <>
       <Head>
@@ -30,7 +48,19 @@ export default function SignIn() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <input
+          type="text"
+          placeholder="メールアドレスを入力"
+          onChange={changeEmail}
+        />
+        <input
+          type="text"
+          placeholder="パスワードを入力"
+          onChange={changePassword}
+        />
+        <button onClick={loginWithEmail}>ログイン</button>
         <button onClick={loginWithGoogle}>Googleアカウントでログイン</button>
+        <Link href="/signup">アカウント新規登録はこちら</Link>
         <></>
       </main>
     </>
