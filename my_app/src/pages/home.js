@@ -16,12 +16,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const router = useRouter();
-  const { isAuth } = useAuthContext();
+  const { isAuth, setIsAuth } = useAuthContext();
   useEffect(() => {
+    setIsAuth(localStorage.getItem("isAuth"))
     if (!isAuth) {
       router.push("/signin")
     }
-  }, [])
+  }, [isAuth]);
   return (
     <>
       <Head>

@@ -7,7 +7,7 @@ export function useAuthContext() {
 }
 
 export function AuthProvider({children}) {
-    const [isAuth, setIsAuth] = useState();
+    const [isAuth, setIsAuth] = useState(false);
     const value = {isAuth, setIsAuth};
 
     return (

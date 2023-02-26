@@ -20,8 +20,11 @@ export default function SignIn() {
   };
   const loginWithEmail = () => {
     signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      setIsAuth(true);
+      localStorage.setItem("isAuth", true);
       const user = userCredential.user;
       console.log(user);
+      router.push("/home");
     });
   };
 
@@ -34,11 +37,11 @@ export default function SignIn() {
   };
 
   useEffect(() => {
+    setIsAuth(localStorage.getItem("isAuth"));
     if (isAuth) {
-      console.log(isAuth);
       router.push("/home");
     }
-  }, []);
+  }, [isAuth]);
   return (
     <>
       <Head>
