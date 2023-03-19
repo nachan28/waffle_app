@@ -1,27 +1,22 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "components/styles/Home.module.css";
-import ResponsiveAppBar from 'src/component/header.js';
+import ResponsiveAppBar from "src/component/header.js";
 import Card from "src/component/card.js";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthContext } from "components/context/state";
-import Select from "src/component/select.js"
-
-
-
+import Select from "src/component/select.js";
 
 const inter = Inter({ subsets: ["latin"] });
-
-
 
 export default function Home() {
   const router = useRouter();
   const { isAuth, setIsAuth } = useAuthContext();
   useEffect(() => {
-    setIsAuth(localStorage.getItem("isAuth"))
+    setIsAuth(localStorage.getItem("isAuth"));
     if (!isAuth) {
-      router.push("/signin")
+      router.push("/signin");
     }
   }, [isAuth]);
   return (
@@ -32,14 +27,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    
-      <main className={styles.main}>
-      <ResponsiveAppBar></ResponsiveAppBar>
 
-    
-      <Card></Card>
-      <Select />
-      
+      <main className={styles.main}>
+        <ResponsiveAppBar></ResponsiveAppBar>
+
+        <Card></Card>
+        <Select />
       </main>
     </>
   );
