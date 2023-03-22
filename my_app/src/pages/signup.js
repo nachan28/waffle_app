@@ -24,8 +24,8 @@ function Signup() {
         router.push("/profileTA");
       }
     );
-    const data = {name: user, email: email};
-    const response = postData("/api/signup", data)
+    const data = {username: user, email: email};
+    postData("/api/signup", data);
   };
 
   return (
