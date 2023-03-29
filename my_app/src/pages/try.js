@@ -73,6 +73,47 @@ function App() {
   return (
     <div className="formTA">
 
+<Box display='flex' alignItems='center'> 
+         <Spacer />  
+         <Text align = "center" fontSize= "40px"  as='b'>アカウント新規作成</Text>
+          <Spacer />  
+      </Box>
+     
+     <Box  w='500px'>
+      <Box p = {4} display='flex' alignItems='center'>
+            <Input fontSize = "20px" size = "lg"       type="text"
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}
+              placeholder="ニックネーム"/>
+      </Box>  
+      <Box p = {4} display='flex' alignItems='center'>
+      <Spacer />
+            <Input fontSize = "20px" size = "lg"       type="text"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              placeholder="メールアドレス"/>
+           <Spacer />
+      </Box> 
+
+      <Box p = {4} display='flex' alignItems='center'>
+            <Spacer />
+            <Input fontSize = "20px" size = "lg"       type="text"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              placeholder="パスワード"/>
+            <Spacer />
+      </Box> 
+      </Box>
+   
+      <Box display='flex' alignItems='center'> 
+            <Spacer />
+            <Button onClick={postUserInfo}>作成</Button>
+            <Spacer />
+       </Box>
+
       
       <Box position='relative' h='700px' >
       <h1>Setting Form</h1>
