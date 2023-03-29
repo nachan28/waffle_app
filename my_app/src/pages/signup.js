@@ -2,6 +2,7 @@ import { useAuthContext } from "components/context/state";
 import { auth } from "components/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
+
 import { useState } from 'react';
 import {
   chakra,
@@ -33,6 +34,9 @@ import {
 } from '@chakra-ui/react'
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
+import {postData} from "../lib/utils";
+
+
 function Signup() {
   const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -44,16 +48,6 @@ const CFaLock = chakra(FaLock);
   
   const router = useRouter();
   const { setIsAuth, user, setUser, email, setEmail, password, setPassword } = useAuthContext();
-  async function postData(url, data) {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-    return response.json();
-  }
   const postUserInfo = async () => {
     await createUserWithEmailAndPassword(auth, email, password).then(
       () => {
