@@ -55,6 +55,8 @@ function App() {
     setFormValues({... formValues, [name]: value})
 
   }
+  const userInfo = localStorage.getItem("isAuth")
+  console.log(userInfo)
   async function postData(url, data) {
     const response = await fetch(url, {
       method: 'POST',
