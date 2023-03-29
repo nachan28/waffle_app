@@ -23,6 +23,7 @@ import {
   AbsoluteCenter,
   Textarea,
   Input,
+  Spacer 
  
 } from '@chakra-ui/react'
 import { useRouter } from "next/router";
@@ -71,11 +72,18 @@ function App() {
   }
  
   return (
-    <div className="formTA">
+    <Box className="formTA" bg = "#E6FFFA" h='1000px' >
 
       
       <Box position='relative' h='700px' >
-      <h1>Setting Form</h1>
+      
+      <Box display='flex' alignItems='center'> 
+         <Spacer />  
+         <Text align = "center" fontSize= "40px"  as='b'>Setting Form</Text>
+          <Spacer />  
+      </Box>
+      
+
       <AbsoluteCenter axis='both'  p='4'>
 
       <FormControl m={2}>
@@ -194,8 +202,11 @@ function App() {
             </AbsoluteCenter>
     
             </Box>
-            
-            <Button className = "submitButton" onClick = {postProfile}>登録</Button>
+            <Box display='flex' alignItems='center'> 
+            <Spacer />
+            <Button  bg = "#76E4F7" variant='solid' fontSize = "25px" className = "submitButton" onClick = {postProfile}>Register</Button>
+            <Spacer />
+            </Box>
 
         
  
@@ -203,7 +214,7 @@ function App() {
       
       
       
-    </div>
+    </Box>
   );
 }
 
