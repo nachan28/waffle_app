@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import  Language  from "/src/component/select.js"
 
 import {
@@ -45,7 +45,7 @@ import { useRouter } from "next/router";
 
 function App() {
   //文字列を複数渡すためにオブジェクト形式にする.初期値の設定。冗長にしないため
-  const initialValues = {introduction: "", background:""};
+  const initialValues = {introduction: "", background:"" , username: ""};
   const [formValues, setFormValues] = useState(initialValues);
 //ターゲットすることでインプットした場所を特定
   const handleChange = (e)=>{
@@ -55,8 +55,12 @@ function App() {
     setFormValues({... formValues, [name]: value})
 
   }
-  const userInfo = localStorage.getItem("isAuth")
-  console.log(userInfo)
+  useEffect(() => {
+    const userInfo = localStorage.getItem("isAuth")
+    console.log(userInfo)
+    setFormValues({...formValues, username: userInfo})
+  }, [])
+
   async function postData(url, data) {
     const response = await fetch(url, {
       method: 'POST',

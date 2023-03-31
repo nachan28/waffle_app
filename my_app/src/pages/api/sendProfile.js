@@ -3,14 +3,20 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { introduction, background } = req.body;
-    const user = await prisma.users.create({
+    console.log("kon")
+    const { username, introduction, background } = await req.body;
+    // console.log(user)
+    const update = await prisma.users.update({
+      where:{
+        username: username
+      },
       data: {
         introduction: introduction,
         background: background,
       },
+
     });
-    return res.json(user);
+    return res.json(update);
   } else {
     res.status(405).json({ message: "Method Not Allowed" });
   }
