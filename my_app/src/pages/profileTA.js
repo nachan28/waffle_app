@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import  Language  from "/src/component/select.js"
 
 import {
@@ -45,7 +45,7 @@ import { useRouter } from "next/router";
 
 function App() {
   //文字列を複数渡すためにオブジェクト形式にする.初期値の設定。冗長にしないため
-  const initialValues = {introduction: "", background:""};
+  const initialValues = {username: "", introduction: "", background:"" };
   const [formValues, setFormValues] = useState(initialValues);
 //ターゲットすることでインプットした場所を特定
   const handleChange = (e)=>{
@@ -55,8 +55,13 @@ function App() {
     setFormValues({... formValues, [name]: value})
 
   }
-  const userInfo = localStorage.getItem("isAuth")
-  console.log(userInfo)
+  const router = useRouter();
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem("isAuth")
+  //   console.log(userInfo)
+  //   setFormValues({...formValues, username: userInfo.toString()})
+  // }, [])
+
   async function postData(url, data) {
     const response = await fetch(url, {
       method: 'POST',
@@ -70,8 +75,47 @@ function App() {
   const postProfile = () =>{
     console.log(formValues);
      postData("api/sendProfile", formValues);
+    //  router.push("/home");
 
   }
+//チェックボックスの初期値を設定
+  const skills = ["HTML", "CSS", "Javascript"]
+  const getInitialValues = {user_s_skills:[]}
+  const [checked, setChecked] = useState([...getInitialValues.user_s_skills])
+
+
+  const onChange = (e, i) => {
+    //console.log(e)
+    const newChecked = [...checked];
+   
+    if (e.target.checked === true){
+      setChecked(newChecked.push(i))
+     }else if(e.target.checked === false){
+       console.log(i)
+     setChecked(newChecked.filter(item => {return item !== i}))
+     }
+
+    // const array1 = checked.map((x2, i2) => i2 === i ? e.target.checked : x2)
+    // setChecked(array1)
+    console.log(checked)
+
+  }
+
+
+    // 複数のチェックボックス
+    const checkboxes = skills.map((x, i) => (
+      <div>
+        {/* <label>
+         { skillField[i]} 
+          <input type='checkbox' checked={x} onChange={e => onChange(e, i)} />
+        </label> */}
+
+        <Checkbox colorScheme='blue' checked={checked[i]} onChange={e => onChange(e, i)}>
+        { skills[i]} 
+         </Checkbox>
+
+      </div>
+    ))
  
   return (
     <Box className="formTA" bg = "#E6FFFA" h='1000px' >
@@ -89,6 +133,10 @@ function App() {
       <AbsoluteCenter axis='both'  p='4'>
 
       <FormControl m={2}>
+        <Box>
+        {checkboxes}
+        </Box>
+     
      
 
          <Box p = {4}>

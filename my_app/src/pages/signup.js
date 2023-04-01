@@ -48,15 +48,16 @@ const CFaLock = chakra(FaLock);
   
   const router = useRouter();
   const { setIsAuth, user, setUser, email, setEmail, password, setPassword } = useAuthContext();
+  const data = {username: user, email: email};
   const postUserInfo = async () => {
     await createUserWithEmailAndPassword(auth, email, password).then(
       () => {
         setIsAuth(true);
-        localStorage.setItem("isAuth", true);
+        localStorage.setItem("isAuth", user);
         router.push("/profileTA");
       }
     );
-    const data = {username: user, email: email};
+    
     postData("/api/signup", data);
   };
 
@@ -106,7 +107,8 @@ const CFaLock = chakra(FaLock);
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="email" placeholder="email address" onChange={(e) => {
+                  <Input type="email" placeholder="email address" 
+                  onChange={(e) => {
                 setEmail(e.target.value);
               }}
                />
