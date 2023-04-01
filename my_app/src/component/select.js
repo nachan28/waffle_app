@@ -1,146 +1,141 @@
-import { useState } from "react";
+
+import { useState, useEffect } from 'react';
+
+import {
+  Text,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Checkbox, CheckboxGroup,
+  Stack,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Button,
+  Box,
+  AbsoluteCenter,
+  Textarea,
+  Input,
+  Spacer ,
+  Wrap, WrapItem
+ 
+} from '@chakra-ui/react'
+import { useRouter } from "next/router";
 
 const Language = () => {
-  const [animals, setAnimals] = useState([
-    { label: "HTML",  checked: false },
-    { label: "CSS",  checked: false },
-    { label: "Javascript",  checked: false },
-    { label: "Python",  checked: false }
-  ]);
+  
+//チェックボックスの初期値を設定
+const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
+,"PHP", "Ruby", "Java", "C","C#",
+"C++"," Rust", "Flutter"," Swift", "Kotlin",
+"Ruby on Rails" , "React","Next.js", "Angular","Vue.js",
+"Fast API", "Django", "Flask", "Laravel", "Unity"
+," Docker","MySQL" ,"PotgreSQL", "MongoDB "]
 
-  const [fields, setFields] = useState([
-    { label: "HTML",  checked: false },
-    { label: "CSS",  checked: false },
-    { label: "Javascript",  checked: false },
-    { label: "Python",  checked: false }
-  ]);
+  const fields =["FrontEnd", "BackEnd", "Fullstack","Security","QA","Site", "Infra","Cloud", "Database", "Game", "System","Mobile", "AI", "DX", "DataAnalyst"]
+  const getInitialSkill = {user_s_skills:[]}
+  const getInitialField = {user_s_fields:[]}
+  const [checked, setChecked] = useState([...getInitialSkill.user_s_skills])
+  const [checkedField, setCheckedField] = useState([...getInitialField.user_s_fields])
 
-  const [sum, setSum] = useState(0);
-  const onChange = (e) => {
-    const newAnimals = animals.map((animal) => {
-      const newAnimal = { ...animal };
-      if (newAnimal.label === e.target.value) {
-        newAnimal.checked = !newAnimal.checked;
-      }
-      return newAnimal;
-    });
-    setAnimals(newAnimals);
-    
-    newAnimals
-      .filter((animal) => animal.checked);
-    
-  };
+
+  const onChange = (e, i) => {
+    console.log(e)
+   
+    const newChecked = [...checked];
+
+    if (!checked.includes(i)) {
+      newChecked.push(i);
+      setChecked(newChecked);
+    } else  {
+      console.log(i);
+      setChecked(
+        newChecked.filter((item) => {
+          return item !== i;
+        })
+      );
+    }
+  }
+  const onChangefield = (e, i) => {
+    console.log(e)
+   
+    const newChecked = [...checkedField];
+
+    if (!checkedField.includes(i)) {
+      newChecked.push(i);
+      setCheckedField(newChecked);
+    } else  {
+      console.log(i);
+      setCheckedField(
+        newChecked.filter((item) => {
+          return item !== i;
+        })
+      );
+    }
+  }
+
+    // 複数のチェックボックス
+    const skillcheckboxes = skills.map((x, i) => {
+      return(
+      <div>
+        {/* //widthを設定して折り返すことが出来るようにする！ */}
+        <WrapItem>
+        <Button colorScheme='blue'  variant={checked.includes(i) ? "solid" : "outline"} checked={checked[i]} onClick={e => onChange(e, i)}>
+        { skills[i]} 
+         </Button>
+        </WrapItem>
+      </div>
+     )})
+     
+     const fieldcheckboxes = fields.map((x, i) => {
+
+      return(
+      <div> 
+          <WrapItem>
+          <Button colorScheme='blue'  variant={checkedField.includes(i) ? "solid" : "outline"} checked={checkedField[i]} onClick={e => onChangefield(e, i)}>
+        { fields[i]} 
+         </Button>
+
+          </WrapItem>
+      </div>
+     )})
+     const SkillAndField = {user_s_skills: checked, user_s_fields:checkedField}
+     console.log(SkillAndField)
+ 
   return (
-    <div>
-       
-          <div key={animals.label}>
-          <span>アドバイス出来る言語</span>
-            <input
-              id={animals[0].label}
-              type="checkbox"
-              value={animals[0].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[0].label}>
-              {animals[0].label}
-            </label>
+    <FormControl m={2}>
+     
+         <Box p = {4}>
+                <FormLabel fontSize = "25px" >Fluent Programming Languages & Tools</FormLabel>
+                  <Stack spacing={5} direction='row' >
+                    <Wrap>
+                  {skillcheckboxes}
+                  </Wrap>
+                 
 
-            <input
-              id={animals[1].label}
-              type="checkbox"
-              value={animals[1].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[1].label}>
-              {animals[1].label}
-            </label>
+                  </Stack>
+            </Box>
 
-            <input
-              id={animals[2].label}
-              type="checkbox"
-              value={animals[2].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[2].label}>
-              {animals[2].label}
-            </label>
-            
-            <input
-              id={animals[3].label}
-              type="checkbox"
-              value={animals[3].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[3].label}>
-              {animals[3].label}
-            </label>
 
-            
-            </div>
+            <Box p = {4}>      
+                <FormLabel fontSize = "25px">Work or interest Fields</FormLabel>
+                <Stack spacing={5} direction='row' >
+                  <Wrap>{fieldcheckboxes}</Wrap>
+                
+                </Stack>
+  
 
-            <div key={animals.label}>
-          <span>働いている分野</span>
-            <input
-              id={animals[0].label}
-              type="checkbox"
-              value={animals[0].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[0].label}>
-              {animals[0].label}
-            </label>
 
-            <input
-              id={animals[1].label}
-              type="checkbox"
-              value={animals[1].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[1].label}>
-              {animals[1].label}
-            </label>
-
-            <input
-              id={animals[2].label}
-              type="checkbox"
-              value={animals[2].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[2].label}>
-              {animals[2].label}
-            </label>
-            
-            <input
-              id={animals[3].label}
-              type="checkbox"
-              value={animals[3].label}
-              onChange={onChange}
-            />
-            <label htmlFor={animals[3].label}>
-              {animals[3].label}
-            </label>
-
-            
-            </div>
-      
-
-        {animals.map((animal) => {
-                return (
-                <div key={animal.label}>
-                    <input
-                    id={animal.label}
-                    type="checkbox"
-                    value={animal.label}
-                    onChange={onChange}
-                    />
-                    <label htmlFor={animal.label}>
-                    {animal.label}
-                    </label>
-                </div>
-                );
-            })}
-            
-    </div>
+         </Box>      
+      </FormControl>
+    
   );
 };
 
