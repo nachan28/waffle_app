@@ -23,25 +23,11 @@ import {
   AbsoluteCenter,
   Textarea,
   Input,
-  Spacer 
+  Spacer ,
+  Wrap, WrapItem
  
 } from '@chakra-ui/react'
 import { useRouter } from "next/router";
-
-
-  // const [skills, setSkills] = useState([
-  //   { label: "HTML",  checked: false , id :1},
-  //   { label: "CSS",  checked: false ,id :2},
-  //   { label: "Javascript",  checked: false ,id :3},
-  //   { label: "Python",  checked: false,id:4 },
-  //   { label: "Java",  checked: false , id :5},
-  //   { label: "C",  checked: false ,id :6},
-  //   { label: "C#",  checked: false ,id :7},
-  //   { label: "PHP",  checked: false,id:8 },
-  //   { label: "Ruby",  checked: false,id:9},
-  //   { label: "TypeScript",  checked: false,id:10},
-  // ]);
-
 
 function App() {
   //文字列を複数渡すためにオブジェクト形式にする.初期値の設定。冗長にしないため
@@ -56,72 +42,113 @@ function App() {
 
   }
   const router = useRouter();
-  // useEffect(() => {
-  //   const userInfo = localStorage.getItem("isAuth")
-  //   console.log(userInfo)
-  //   setFormValues({...formValues, username: userInfo.toString()})
-  // }, [])
+  useEffect(() => {
+    const userInfo = localStorage.getItem("isAuth")
+    console.log(userInfo)
+    setFormValues({...formValues, username: userInfo.toString()})
+  }, [])
 
-  async function postData(url, data) {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-    return response.json();
-  }
-  const postProfile = () =>{
-    console.log(formValues);
-     postData("api/sendProfile", formValues);
-    //  router.push("/home");
-
-  }
 //チェックボックスの初期値を設定
-  const skills = ["HTML", "CSS", "Javascript"]
-  const getInitialValues = {user_s_skills:[]}
-  const [checked, setChecked] = useState([...getInitialValues.user_s_skills])
+  const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
+,"PHP", "Ruby", "Java", "C","C#",
+"C++"," Rust", "Flutter"," Swift", "Kotlin",
+"Ruby on Rails" , "React","Next.js", "Angular","Vue.js",
+"Fast API", "Django", "Flask", "Laravel", "Unity"
+," Docker","MySQL" ,"PotgreSQL", "MongoDB "]
+
+  const fields =["FrontEnd", "BackEnd", "Fullstack","Security","QA","Site", "Infra","Cloud", "Database", "Game", "System","Mobile", "AI", "DX", "DataAnalyst"]
+  const getInitialSkill = {user_s_skills:[]}
+  const getInitialField = {user_s_fields:[]}
+  const [checked, setChecked] = useState([...getInitialSkill.user_s_skills])
+  const [checkedField, setCheckedField] = useState([...getInitialField.user_s_fields])
 
 
   const onChange = (e, i) => {
-    //console.log(e)
-    const newChecked = [...checked];
+    console.log(e)
    
-    if (e.target.checked === true){
-      setChecked(newChecked.push(i))
-     }else if(e.target.checked === false){
-       console.log(i)
-     setChecked(newChecked.filter(item => {return item !== i}))
-     }
+    const newChecked = [...checked];
 
-    // const array1 = checked.map((x2, i2) => i2 === i ? e.target.checked : x2)
-    // setChecked(array1)
-    console.log(checked)
+    if (!checked.includes(i)) {
+      newChecked.push(i);
+      setChecked(newChecked);
+    } else  {
+      console.log(i);
+      setChecked(
+        newChecked.filter((item) => {
+          return item !== i;
+        })
+      );
+    }
+  }
+  const onChangefield = (e, i) => {
+    console.log(e)
+   
+    const newChecked = [...checkedField];
 
+    if (!checkedField.includes(i)) {
+      newChecked.push(i);
+      setCheckedField(newChecked);
+    } else  {
+      console.log(i);
+      setCheckedField(
+        newChecked.filter((item) => {
+          return item !== i;
+        })
+      );
+    }
   }
 
-
     // 複数のチェックボックス
-    const checkboxes = skills.map((x, i) => (
+    const skillcheckboxes = skills.map((x, i) => {
+      return(
       <div>
-        {/* <label>
-         { skillField[i]} 
-          <input type='checkbox' checked={x} onChange={e => onChange(e, i)} />
-        </label> */}
-
-        <Checkbox colorScheme='blue' checked={checked[i]} onChange={e => onChange(e, i)}>
+        {/* //widthを設定して折り返すことが出来るようにする！ */}
+        <WrapItem>
+        <Button colorScheme='blue'  variant={checked.includes(i) ? "solid" : "outline"} checked={checked[i]} onClick={e => onChange(e, i)}>
         { skills[i]} 
-         </Checkbox>
-
+         </Button>
+        </WrapItem>
       </div>
-    ))
+     )})
+     
+     const fieldcheckboxes = fields.map((x, i) => {
+
+      return(
+      <div> 
+          <WrapItem>
+          <Button colorScheme='blue'  variant={checkedField.includes(i) ? "solid" : "outline"} checked={checkedField[i]} onClick={e => onChangefield(e, i)}>
+        { fields[i]} 
+         </Button>
+
+          </WrapItem>
+      </div>
+     )})
+     const SkillAndField = {user_s_skills: checked, user_s_fields:checkedField}
+     console.log(SkillAndField)
+
+     async function postData(url, data) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      return response.json();
+    }
+    const postProfile = () =>{
+      console.log(formValues);
+       postData("api/sendProfile", formValues);
+      //  router.push("/home");
+  
+    }
+
  
   return (
     <Box className="formTA" bg = "#E6FFFA" h='1000px' >
 
       
-      <Box position='relative' h='700px' >
+      <Box position='relative' h='800px' >
       
       <Box display='flex' alignItems='center'> 
          <Spacer />  
@@ -131,53 +158,15 @@ function App() {
       
 
       <AbsoluteCenter axis='both'  p='4'>
-
       <FormControl m={2}>
-        <Box>
-        {checkboxes}
-        </Box>
      
-     
-
          <Box p = {4}>
-                <FormLabel fontSize = "25px">Fluent Programming Languages & Tools</FormLabel>
+                <FormLabel fontSize = "25px" >Fluent Programming Languages & Tools</FormLabel>
                   <Stack spacing={5} direction='row' >
-                    <Checkbox colorScheme='blue' >
-                      HTML
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                    <Text fontSize='2xl'>
-                      CSS
-                      </Text>
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      Javascript
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      Python
-                    </Checkbox>
-
-                  </Stack>
-
-                  <Stack spacing={5} direction='row'>
-                    <Checkbox colorScheme='blue' >
-                      C
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      C#
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      Go
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      flutter
-                    </Checkbox>
+                    <Wrap>
+                  {skillcheckboxes}
+                  </Wrap>
+                 
 
                   </Stack>
             </Box>
@@ -185,45 +174,12 @@ function App() {
 
             <Box p = {4}>      
                 <FormLabel fontSize = "25px">Work or interest Fields</FormLabel>
-                  <Stack spacing={5} direction='row' >
-                    <Checkbox colorScheme='blue' >
-                      FrontEnd
-                    </Checkbox>
+                <Stack spacing={5} direction='row' >
+                  <Wrap>{fieldcheckboxes}</Wrap>
+                
+                </Stack>
+  
 
-                    <Checkbox colorScheme='blue' >
-                    <Text fontSize='2xl'>
-                      BackEnd
-                      </Text>
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      Fullstack
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      Security
-                    </Checkbox>
-
-                  </Stack>
-
-                  <Stack spacing={5} direction='row'>
-                    <Checkbox colorScheme='blue' >
-                      Fintech
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      FemTech
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      Cloud
-                    </Checkbox>
-
-                    <Checkbox colorScheme='blue' >
-                      QA
-                    </Checkbox>
-
-                  </Stack>
 
          </Box>      
                 

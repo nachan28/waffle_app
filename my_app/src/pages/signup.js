@@ -53,6 +53,7 @@ const CFaLock = chakra(FaLock);
     await createUserWithEmailAndPassword(auth, email, password).then(
       () => {
         setIsAuth(true);
+        //userの名前をisAuthというkeyでlocalStrageに保存
         localStorage.setItem("isAuth", user);
         router.push("/profileTA");
       }
@@ -63,6 +64,7 @@ const CFaLock = chakra(FaLock);
 
   return (
     <>
+   
         <Flex
       flexDirection="column"
       width="100wh"
