@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import  Language  from "/src/component/select.js"
 
 import {
   Text,
@@ -139,7 +138,7 @@ function App() {
     const postProfile = () =>{
       console.log(formValues);
        postData("api/sendProfile", formValues);
-      //  router.push("/home");
+       router.push("/home");
   
     }
 
