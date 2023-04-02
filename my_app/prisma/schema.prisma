@@ -8,23 +8,15 @@ datasource db {
 }
 
 model fields {
-  id                        Int                         @id @default(autoincrement())
-  name                      String?
-  user_s_specialized_fields user_s_specialized_fields[]
+  id            Int             @id @default(autoincrement())
+  name          String?
+  user_s_fields user_s_fields[]
 }
 
 model skills {
   id            Int             @id @default(autoincrement())
   name          String?
   user_s_skills user_s_skills[]
-}
-
-model user_s_role {
-  user_id Int     @id @default(autoincrement())
-  role    String?
-  users   users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("user's_role")
 }
 
 model user_s_skills {
@@ -37,24 +29,29 @@ model user_s_skills {
   @@map("user's_skills")
 }
 
-model user_s_specialized_fields {
+model users {
+  id            Int             @id @unique @default(autoincrement())
+  username      String?         @unique
+  email         String?
+  role          String?         @default("")
+  background    String?         @default("")
+  introduction  String?         @default("")
+  avatar        String?
+  user_s_fields user_s_fields[]
+  user_s_skills user_s_skills[]
+}
+
+model user_s_fields {
   user_id  Int    @default(autoincrement())
   field_id Int
   fields   fields @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users    users  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([user_id, field_id])
-  @@map("user's_specialized_fields")
+  @@id([user_id, field_id], map: "user's_specialized_fields_pkey")
+  @@map("user's_fields")
 }
 
-model users {
-  id                        Int                         @id @unique @default(autoincrement())
-  username                  String?                     @unique
-  email                     String?
-  role                      String?                     @default("")
-  background                String?                     @default("")
-  introduction              String?
-  user_s_role               user_s_role?
-  user_s_skills             user_s_skills[]
-  user_s_specialized_fields user_s_specialized_fields[]
+model roles {
+  id   Int     @id @default(autoincrement())
+  name String?
 }
