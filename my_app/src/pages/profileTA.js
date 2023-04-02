@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { postData } from 'components/lib/utils';
 
 import {
   Text,
@@ -48,14 +49,14 @@ function App() {
   }, [])
 
 //チェックボックスの初期値を設定
-  const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
+  const skills = ["HTML", "CSS", "JavaScript", "Python", "Go"
 ,"PHP", "Ruby", "Java", "C","C#",
 "C++"," Rust", "Flutter"," Swift", "Kotlin",
 "Ruby on Rails" , "React","Next.js", "Angular","Vue.js",
 "Fast API", "Django", "Flask", "Laravel", "Unity"
 ," Docker","MySQL" ,"PotgreSQL", "MongoDB "]
 
-  const fields =["FrontEnd", "BackEnd", "Fullstack","Security","QA","Site", "Infra","Cloud", "Database", "Game", "System","Mobile", "AI", "DX", "DataAnalyst"]
+  const fields =["Frontend", "Backend", "Fullstack","Security","QA","Site Reliability", "Infra","Cloud", "Database", "Game", "System","Mobile", "AI", "DX", "Data Analyst"]
   const getInitialSkill = {user_s_skills:[]}
   const getInitialField = {user_s_fields:[]}
   const [checked, setChecked] = useState([...getInitialSkill.user_s_skills])
@@ -123,23 +124,10 @@ function App() {
       </div>
      )})
      const SkillAndField = {user_s_skills: checked, user_s_fields:checkedField}
-     console.log(SkillAndField)
-
-     async function postData(url, data) {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      return response.json();
-    }
+    
     const postProfile = () =>{
-      console.log(formValues);
-       postData("api/sendProfile", formValues);
+       postData("api/sendProfile", {...formValues, ...SkillAndField});
        router.push("/home");
-  
     }
 
  
