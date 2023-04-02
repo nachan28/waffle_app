@@ -106,8 +106,10 @@ const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
           </WrapItem>
       </div>
      )})
-     const SkillAndField = {user_s_skills: checked, user_s_fields:checkedField}
+     const SkillAndField = useState({user_s_skills: checked, user_s_fields:checkedField})
      console.log(SkillAndField)
+
+
  
   return (
     <FormControl m={2}>

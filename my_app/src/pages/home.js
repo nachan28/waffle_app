@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useEffect,useState } from "react";
 import { useAuthContext } from "components/context/state";
 import chakra from "@chakra-ui/system"
+
 import {
   Box,
   Flex,
@@ -31,8 +32,8 @@ import {
   InputRightElement,
   Input
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, Search2Icon } from '@chakra-ui/icons';
-
+// import { HamburgerIcon, CloseIcon, Search2Icon } from '@chakra-ui/icons';
+import { AiOutlineCloseCircle, AiOutlineMenu, AiOutlineSearch} from "react-icons/ai";
 
 
 const Links = ['Connect with you', 'Projects', 'Team'];
@@ -54,14 +55,27 @@ const NavLink =( { children } )=> (
   </Link>
 );
 
-export default function Home() {
+export default function Home({SkillAndField}) {
+  //ルーターとAPI叩く
   const router = useRouter();
+  async function postData(url, data) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+
+  //Logoutのコード 
   const Logout = (e) =>{
     if(e.target.textContent === "Logout"){
       router.push("/signout")
     }
   }
-  
+ 
   const { isAuth, setIsAuth } = useAuthContext();
   useEffect(() => {
     setIsAuth(localStorage.getItem("isAuth"));
@@ -69,6 +83,29 @@ export default function Home() {
       router.push("/signin");
     }
   }, [isAuth]);
+  //キーワードの取得
+const initialKeyword =("")
+const [keyword, setKeywords] = useState(initialKeyword)
+const setKeyword = (e) =>{
+  const {value} = e.target
+    setKeywords(value)
+}
+//キーワードのAPI
+const clickkey = (req, res)=>
+{
+  console.log(keyword)
+  postData("api/searchKeyword", keyword)
+  if(res.ok){
+    console.log(res.body)
+  }
+}
+//SkillAndField[keyword] =keyword
+
+  //skillとfieldを検索
+  const searchSkillField  = () =>{
+    console.log({SkillAndField})
+    postData("api/searchSkillField", )
+  }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSmallerThanMd, setIsSmallerThanMd] = useState(false);
@@ -82,7 +119,7 @@ export default function Home() {
       >
         <IconButton
           size={'md'}
-          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          icon={isOpen ? <AiOutlineCloseCircle /> : < AiOutlineMenu/>}
           aria-label={'Open Menu'}
           display={{ md: 'none' }}
           onClick={isOpen ? onClose : onOpen}
@@ -145,17 +182,20 @@ export default function Home() {
                 <InputGroup width={600}>
                 
                   <Input type="text" onChange={(e) => {
-                setUser(e.target.value);
+                setKeyword(e);
               }}
               placeholder="キーワードで検索"
                />
                  <InputRightElement
+                 
                     pointerEvents="none"
-                   children ={< Search2Icon color = "gray.300"/>}
+                   children ={< AiOutlineSearch color = "gray.300"/>}
                   />
+                  <Button onClick = {clickkey}></Button>
                 </InputGroup>
               </FormControl>
      <Select/>
+     <Button onClick = {searchSkillField}>Search</Button>
     <TAcard></TAcard>
     <TAcard></TAcard>
 

@@ -123,7 +123,7 @@ function App() {
           </WrapItem>
       </div>
      )})
-     const SkillAndField = {user_s_skills: checked, user_s_fields:checkedField}
+     const SkillAndField = useState({user_s_skills: checked, user_s_fields:checkedField})
     
     const postProfile = () =>{
        postData("api/sendProfile", {...formValues, ...SkillAndField});
