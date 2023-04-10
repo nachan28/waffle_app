@@ -9,6 +9,7 @@ import TAcard from "src/component/taCard"
 import { useRouter } from "next/router";
 import { useEffect,useState } from "react";
 import { useAuthContext } from "components/context/state";
+import { useUserHaveSkillFieldContext } from "components/context/state";
 import chakra from "@chakra-ui/system"
 
 import {
@@ -30,7 +31,8 @@ import {
   FormControl,
   InputGroup,
   InputRightElement,
-  Input
+  Input,
+  Wrap
 } from '@chakra-ui/react';
 // import { HamburgerIcon, CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { AiOutlineCloseCircle, AiOutlineMenu, AiOutlineSearch} from "react-icons/ai";
@@ -66,7 +68,10 @@ export default function Home({SkillAndField}) {
       },
       body: JSON.stringify(data)
     });
-    return response.json();
+    const keyUser = await response.json()
+    console.log(keyUser)
+    return response.body;
+   
   }
 
   //Logoutのコード 
@@ -83,6 +88,7 @@ export default function Home({SkillAndField}) {
       router.push("/signin");
     }
   }, [isAuth]);
+
   //キーワードの取得
 const initialKeyword =("")
 const [keyword, setKeywords] = useState(initialKeyword)
@@ -95,16 +101,17 @@ const clickkey = (req, res)=>
 {
   console.log(keyword)
   postData("api/searchKeyword", keyword)
-  if(res.ok){
-    console.log(res.body)
+ 
+    console.log(res)
   }
-}
+
 //SkillAndField[keyword] =keyword
+
 
   //skillとfieldを検索
   const searchSkillField  = () =>{
     console.log({SkillAndField})
-    postData("api/searchSkillField", )
+    postData("api/searchSkillField" )
   }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -176,28 +183,34 @@ const clickkey = (req, res)=>
       minH="calc(100vh - 4rem)"
       onResize={() => setIsSmallerThanMd(window.innerWidth < 768)}
     >
-    <Card/>
-
+    {/* <Card/> */}
+    <Box p = {4}>
     <FormControl>
-                <InputGroup width={600}>
-                
-                  <Input type="text" onChange={(e) => {
-                setKeyword(e);
-              }}
-              placeholder="キーワードで検索"
-               />
-                 <InputRightElement
-                 
-                    pointerEvents="none"
-                   children ={< AiOutlineSearch color = "gray.300"/>}
-                  />
-                  <Button onClick = {clickkey}></Button>
-                </InputGroup>
-              </FormControl>
+        <InputGroup width={600}>
+        
+          <Input type="text" onChange={(e) => {
+            setKeyword(e);}}
+            placeholder="キーワードで検索"
+            />
+        <InputRightElement
+        
+            pointerEvents="none"
+          children ={< AiOutlineSearch color = "gray.300"/>}
+          />
+          <Button onClick = {clickkey}></Button>
+        </InputGroup>
+    </FormControl>
+    </Box>
+
+
      <Select/>
-     <Button onClick = {searchSkillField}>Search</Button>
+     <Box p = {4}><Button onClick = {searchSkillField}>Search</Button></Box>
+     
+     <Wrap>
     <TAcard></TAcard>
     <TAcard></TAcard>
+    <TAcard></TAcard>
+    </Wrap>
 
     </Box>
   </>

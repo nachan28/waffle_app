@@ -21,3 +21,25 @@ export function AuthProvider({children}) {
         </AuthContext.Provider>
     )
 }
+
+const UserSFContext = createContext();
+
+export function useUserHaveSkillFieldContext() {
+    return useContext(UserSFContext);
+}
+export function UserSFProvider({children}) {
+    const [username, setUsername] = useState("");
+    const [ checkedSkill, setCheckedSkill] = useState([]);
+    const [ checkedField, setCheckedField] = useState([]);
+    const [introduction , setIntroduction ] = useState("");
+   
+    
+    const value = {username, setUsername, checkedSkill,setCheckedSkill, checkedField,setCheckedField, introduction,setIntroduction};
+
+    return (
+        <UserSFContext.Provider value={value}>
+            {children}
+        </UserSFContext.Provider>
+    )
+}
+
