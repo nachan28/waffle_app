@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import {
   Text,
@@ -28,7 +28,7 @@ import {
  
 } from '@chakra-ui/react'
 import { useRouter } from "next/router";
-import { useUserHaveSkillFieldContext } from 'components/context/state';
+import { useUserHaveSkillFieldContext ,UserSFProvider} from 'components/context/state';
 
 const Language = () => {
   
@@ -49,11 +49,12 @@ const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
 const {checkedSkill,setCheckedSkill, checkedField,setCheckedField} = useUserHaveSkillFieldContext()
 //スキルボタンを押したらindexを保存する
   const onChange = (e, i) => {
-    console.log(e)
+  
    
     const newChecked = [...checkedSkill];
 
     if (!checkedSkill.includes(i)) {
+      console.log(i)
       newChecked.push(i);
       setCheckedSkill(newChecked);
     } else  {
@@ -65,6 +66,7 @@ const {checkedSkill,setCheckedSkill, checkedField,setCheckedField} = useUserHave
       );
     }
   }
+  console.log(checkedSkill, checkedField)
   //フィールドボタンを押したらindexを保存する
   const onChangefield = (e, i) => {
     console.log(e)
@@ -89,6 +91,7 @@ const {checkedSkill,setCheckedSkill, checkedField,setCheckedField} = useUserHave
       return(
       <div>
         {/* //widthを設定して折り返すことが出来るようにする方法もあるよ */}
+
         <WrapItem>
         <Button colorScheme='blue'  variant={checkedSkill.includes(i) ? "solid" : "outline"} checkedSkill={checkedSkill[i]} onClick={e => onChange(e, i)}>
         { skills[i]} 
@@ -110,11 +113,13 @@ const {checkedSkill,setCheckedSkill, checkedField,setCheckedField} = useUserHave
       </div>
      )})
      const SkillAndField = useState({user_s_skills: checkedSkill, user_s_fields:checkedField})
-     console.log(SkillAndField)
+     //console.log(SkillAndField)
 
 
  
   return (
+   
+    
     <FormControl m={2}>
      
          <Box p = {4}>

@@ -9,11 +9,16 @@ import {
     Link,
     Badge,
     useColorModeValue,
+    WrapItem,
+    Wrap
   } from '@chakra-ui/react';
   
   export default function SocialProfileSimple() {
-    return (
-      
+    // const listOfRusult = fields.map((x, i) => {
+
+      return(
+      <div> 
+      <WrapItem>
         <Box
           maxW={'320px'}
           w={'full'}
@@ -108,6 +113,15 @@ import {
             </Button>
           </Stack>
         </Box>
+      </WrapItem>
+      </div>
+     )
+
+    // return (
+    //   <Wrap>
+    //     {listOfRusult}
+    //   </Wrap>
+      
   
-    );
+    // );
   }
