@@ -28,10 +28,11 @@ import {
  
 } from '@chakra-ui/react'
 import { useRouter } from "next/router";
+import { useUserHaveSkillFieldContext } from 'components/context/state';
 
 const Language = () => {
   
-//チェックボックスの初期値を設定
+//表示させたいスキルとフィールド
 const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
 ,"PHP", "Ruby", "Java", "C","C#",
 "C++"," Rust", "Flutter"," Swift", "Kotlin",
@@ -40,29 +41,31 @@ const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
 ," Docker","MySQL" ,"PotgreSQL", "MongoDB "]
 
   const fields =["FrontEnd", "BackEnd", "Fullstack","Security","QA","Site", "Infra","Cloud", "Database", "Game", "System","Mobile", "AI", "DX", "DataAnalyst"]
-  const getInitialSkill = {user_s_skills:[]}
-  const getInitialField = {user_s_fields:[]}
-  const [checked, setChecked] = useState([...getInitialSkill.user_s_skills])
-  const [checkedField, setCheckedField] = useState([...getInitialField.user_s_fields])
-
-
+ //チェックボックスの初期値を設定
+  // const getInitialSkill = {user_s_skills:[]}
+  // const getInitialField = {user_s_fields:[]}
+  // const [checkedSkill, setCheckedSkill] = useState([...getInitialSkill.user_s_skills])
+  // const [checkedField, setCheckedField] = useState([...getInitialField.user_s_fields])
+const {checkedSkill,setCheckedSkill, checkedField,setCheckedField} = useUserHaveSkillFieldContext()
+//スキルボタンを押したらindexを保存する
   const onChange = (e, i) => {
     console.log(e)
    
-    const newChecked = [...checked];
+    const newChecked = [...checkedSkill];
 
-    if (!checked.includes(i)) {
+    if (!checkedSkill.includes(i)) {
       newChecked.push(i);
-      setChecked(newChecked);
+      setCheckedSkill(newChecked);
     } else  {
       console.log(i);
-      setChecked(
+      setCheckedSkill(
         newChecked.filter((item) => {
           return item !== i;
         })
       );
     }
   }
+  //フィールドボタンを押したらindexを保存する
   const onChangefield = (e, i) => {
     console.log(e)
    
@@ -81,13 +84,13 @@ const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
     }
   }
 
-    // 複数のチェックボックス
+    // 複数のチェックボックスをつくる（スキルとフィールド）
     const skillcheckboxes = skills.map((x, i) => {
       return(
       <div>
-        {/* //widthを設定して折り返すことが出来るようにする！ */}
+        {/* //widthを設定して折り返すことが出来るようにする方法もあるよ */}
         <WrapItem>
-        <Button colorScheme='blue'  variant={checked.includes(i) ? "solid" : "outline"} checked={checked[i]} onClick={e => onChange(e, i)}>
+        <Button colorScheme='blue'  variant={checkedSkill.includes(i) ? "solid" : "outline"} checkedSkill={checkedSkill[i]} onClick={e => onChange(e, i)}>
         { skills[i]} 
          </Button>
         </WrapItem>
@@ -99,15 +102,17 @@ const skills = ["HTML", "CSS", "Javascript", "Python", "Go"
       return(
       <div> 
           <WrapItem>
-          <Button colorScheme='blue'  variant={checkedField.includes(i) ? "solid" : "outline"} checked={checkedField[i]} onClick={e => onChangefield(e, i)}>
+          <Button colorScheme='blue'  variant={checkedField.includes(i) ? "solid" : "outline"} checkedSkill={checkedField[i]} onClick={e => onChangefield(e, i)}>
         { fields[i]} 
          </Button>
 
           </WrapItem>
       </div>
      )})
-     const SkillAndField = {user_s_skills: checked, user_s_fields:checkedField}
+     const SkillAndField = useState({user_s_skills: checkedSkill, user_s_fields:checkedField})
      console.log(SkillAndField)
+
+
  
   return (
     <FormControl m={2}>
