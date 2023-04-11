@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useEffect,useState } from "react";
 import { useAuthContext } from "components/context/state";
 import { useUserHaveSkillFieldContext } from "components/context/state";
+import { UserSFProvider } from "components/context/state";
 import chakra from "@chakra-ui/system"
 
 import {
@@ -104,20 +105,20 @@ const clickkey = (req, res)=>
  
     console.log(res)
   }
+const {checkedSkill, checkedField} = useUserHaveSkillFieldContext()
+const SkillField = {user_s_skills: checkedSkill, user_s_fields:checkedField}
 
-//SkillAndField[keyword] =keyword
-
-
-  //skillとfieldを検索
+//   //skillとfieldを検索
   const searchSkillField  = () =>{
-    console.log({SkillAndField})
-    postData("api/searchSkillField" )
+    console.log({SkillField})
+    postData("api/searchSkillField",SkillField )
   }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSmallerThanMd, setIsSmallerThanMd] = useState(false);
   return (
     <>
+   
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
       <Flex
         h={16}
@@ -202,8 +203,8 @@ const clickkey = (req, res)=>
     </FormControl>
     </Box>
 
-
-     <Select/>
+   <Select/>
+    
      <Box p = {4}><Button onClick = {searchSkillField}>Search</Button></Box>
      
      <Wrap>
@@ -213,6 +214,7 @@ const clickkey = (req, res)=>
     </Wrap>
 
     </Box>
+ 
   </>
   );
 }
