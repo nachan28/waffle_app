@@ -13,7 +13,7 @@ import {
     Wrap
   } from '@chakra-ui/react';
   
-  export default function SocialProfileSimple() {
+  export default function SocialProfileSimple({name, skills}) {
     // const listOfRusult = fields.map((x, i) => {
 
       return(
@@ -48,16 +48,16 @@ import {
             }}
           />
           <Heading fontSize={'2xl'} fontFamily={'body'}>
-            Aimi
+            {name}
           </Heading>
           <Text fontWeight={600} color={'gray.500'} mb={4}>
-            @miiii
+            slack: slackName
           </Text>
           <Text
             textAlign={'center'}
             color={useColorModeValue('gray.700', 'gray.400')}
             px={3}>
-           In Japan Fullstack / 
+           Introduction
           </Text>
   
           <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
@@ -66,7 +66,7 @@ import {
               py={1}
               bg={useColorModeValue('gray.50', 'gray.800')}
               fontWeight={'400'}>
-              #Javascript
+              {/* {skills.map()} */}
             </Badge>
             <Badge
               px={2}
