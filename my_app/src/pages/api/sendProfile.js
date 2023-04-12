@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { username, introduction, background, user_s_skills, user_s_fields } = await req.body;
+    const { username, introduction, finalrole, background, user_s_skills, user_s_fields } = await req.body;
     console.log("body: ", req.body)
     const result = await prisma.users.findUnique({
       where: {
@@ -18,8 +18,10 @@ export default async function handler(req, res) {
       data: {
         introduction: introduction,
         background: background,
+        role:finalrole
       },
     });
+    console.lo
 
     for (const skill_id of user_s_skills){
       const record = await prisma.user_s_skills.create({
