@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Inter } from "@next/font/google";
+import { useRouter } from "next/router";
 import {
   Box,
   Flex,
@@ -45,11 +46,23 @@ import {
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSmallerThanMd, setIsSmallerThanMd] = useState(false);
+  const router = useRouter();
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem("isAuth")
+  //   console.log(userInfo)
+  //   setFormValues({...formValues, username: userInfo.toString()})
+  // }, [])
 
     //Logoutのコード
     const Logout = (e) => {
         if (e.target.textContent === "Logout") {
           router.push("/signout");
+        }
+      };
+
+      const Settingform = (e) => {
+        if (e.target.textContent === "Setting Form") {
+          router.push("/settingForm");
         }
       };
 
@@ -92,7 +105,7 @@ export default function Simple() {
               </MenuButton>
               <MenuList>
                 <MenuItem>Link 1</MenuItem>
-                <MenuItem>Setting Form</MenuItem>
+                <MenuItem  onClick={Settingform}>Setting Form</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={Logout}>Logout</MenuItem>
               </MenuList>
